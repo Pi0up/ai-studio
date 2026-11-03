@@ -439,16 +439,9 @@ class IaStudioApp {
         const candidates = Array.from(
           new Set([
             ...declared,
+            'sitemap.mmd',
             'sitemap-overview.mmd',
             'sitemap-detailed.mmd',
-            'sitemap-by-role-admin.mmd',
-            'sitemap-by-role-host.mmd',
-            'PF-RESERVATION-NOM-collapsed.mmd',
-            'PF-RESERVATION-VAR-HOST-APPROVAL.mmd',
-            'PF-PAIEMENT-SEG.mmd',
-            'PF-PAIEMENT-EXPANDED.mmd',
-            'PF-DEPOT-NOM-collapsed.mmd',
-            'PF-DEPOT-VAR-ASSIST.mmd',
           ])
         );
 
@@ -493,7 +486,6 @@ class IaStudioApp {
     }
 
     this.showEmptyState();
-    await this.triggerFolderPicker();
   }
 
   showEmptyState() {
