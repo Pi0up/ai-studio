@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"import('fs').then(fs => { if (fs.existsSync('dist/index.html') && !fs.existsSync('dist/preview.html')) fs.renameSync('dist/index.html', 'dist/preview.html'); const src = fs.existsSync('public') ? 'public' : '../examples/preview-showcase'; fs.cpSync(src, 'dist', { recursive: true }); console.log('✅ Generated dist/preview.html with test dataset'); })\"",
-    "test": "vitest run"
+    "build": "vite build && node -e \"import('fs').then(fs => { const src = fs.existsSync('public') ? 'public' : '../examples/preview-showcase'; fs.cpSync(src, 'dist', { recursive: true }); console.log('✅ Generated dist/index.html with test dataset'); })\"",
+    "test": "vitest run",
+    "release": "semantic-release"
   },
   "keywords": [
     "information-architecture",
@@ -18,7 +19,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^11.0.1",
+    "conventional-changelog-conventionalcommits": "^10.4.1",
     "html-minifier-terser": "^7.2.0",
+    "semantic-release": "^25.0.9",
     "vite": "^6.2.0",
     "vite-plugin-singlefile": "^2.1.0",
     "vitest": "^3.0.0"
