@@ -2,6 +2,12 @@
 
 Toutes les modifications notables apportées à ce projet sont consignées dans ce fichier.
 
+## [1.1.0](https://github.com/Pi0up/ai-studio/compare/v1.0.0...v1.1.0) (2026-11-03)
+
+### ✨ Features
+
+* **sidebar:** synchronize sidebar badge with app release version ([f749fb7](https://github.com/Pi0up/ai-studio/commit/f749fb7919e984ee8f88fefe93aa360e9a04839d))
+
 ## 1.0.0 (2026-11-03)
 
 ### ✨ Features
