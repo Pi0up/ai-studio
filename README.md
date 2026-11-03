@@ -5,7 +5,7 @@ Visualiseur web unifié, interactif et autonome pour l'Architecture de l'Informa
 
 ---
 
-## 🌟 Introduction
+## Introduction
 
 **Information Architecture Studio** (`ai-studio`) est un outil conçu pour explorer, inspecter et partager visuellement les livrables d'Architecture de l'Information d'une application ou d'un service.
 
@@ -19,7 +19,7 @@ Compilé sous la forme d'un **fichier HTML unique et autonome** (`index.html`), 
 
 ---
 
-## 🔗 Écosystème : Synergie avec `ai-skills`
+## Écosystème : Synergie avec `ai-skills`
 
 Ce studio fonctionne en tandem avec le dépôt [**Pi0up/ai-skills**](https://github.com/Pi0up/ai-skills) :
 
@@ -28,7 +28,7 @@ Ce studio fonctionne en tandem avec le dépôt [**Pi0up/ai-skills**](https://git
 
 ---
 
-## ⚙️ Principe de fonctionnement général
+## Principe de fonctionnement général
 
 Le fonctionnement repose sur une boucle simple et modulaire :
 
@@ -94,7 +94,7 @@ npm run build
 
 ---
 
-## 🌐 Déploiement en ligne (GitHub Pages)
+## Déploiement en ligne (GitHub Pages)
 
 Le dépôt intègre un workflow GitHub Actions (`.github/workflows/pages.yml`) qui s'exécute automatiquement à chaque mise à jour de la branche `main` :
 
@@ -110,6 +110,6 @@ Dans les paramètres du dépôt GitHub (**Settings** > **Pages** > **Build and d
 
 ---
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence [MIT](LICENSE).
