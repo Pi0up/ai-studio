@@ -11,6 +11,7 @@ import { PanZoomEngine } from './pan-zoom.js';
 import { NodeInspector } from './inspector.js';
 import { HoverCardManager } from './hover-card.js';
 import { setupExportMenu } from './export-menu.js';
+import { WindowSplitter } from './window-splitter.js';
 import { parseMetadata, CURRENT_TEMPLATE_VERSION } from './metadata-parser.js';
 
 export const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.0.0';
@@ -59,6 +60,7 @@ class IaStudioApp {
 
     this.dom = {
       sidebar: document.getElementById('sidebar'),
+      sidebarSplitter: document.getElementById('sidebar-splitter'),
       canvasViewport: document.getElementById('canvas-viewport'),
       emptyState: document.getElementById('empty-state'),
       emptyStateText: document.getElementById('empty-state-text'),
@@ -99,6 +101,9 @@ class IaStudioApp {
       this.dom.sidebarAppVersion.title = `Version de l'application : v${APP_VERSION}`;
     }
     this.panZoom = new PanZoomEngine(this.dom.canvasViewport, this.dom.svgWrapper);
+    if (this.dom.sidebar && this.dom.sidebarSplitter) {
+      this.windowSplitter = new WindowSplitter(this.dom.sidebar, this.dom.sidebarSplitter);
+    }
 
     this.inspector = new NodeInspector(this.dom, this.panZoom, {
       onSeeInArbo: (code) => this.resolveSeeInArbo(code),
