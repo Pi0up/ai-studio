@@ -7,13 +7,15 @@ import { layoutSitemap } from '../src/scripts/layout-sitemap.js';
 import { layoutUserflow, layoutUseCase } from '../src/scripts/layout-userflow.js';
 
 describe('Jeu de données de test exhaustif : ECO-STAYS', () => {
-  const publicDir = fs.existsSync(path.resolve(__dirname, '../public/metadata.json'))
-    ? path.resolve(__dirname, '../public')
-    : path.resolve(__dirname, '../../examples/preview-showcase');
-  const sheetsDir = path.join(publicDir, 'screen-sheets');
+  const datasetDir = fs.existsSync(path.resolve(__dirname, '../examples/eco-stays/metadata.json'))
+    ? path.resolve(__dirname, '../examples/eco-stays')
+    : (fs.existsSync(path.resolve(__dirname, '../public/metadata.json'))
+        ? path.resolve(__dirname, '../public')
+        : path.resolve(__dirname, '../../examples/preview-showcase'));
+  const sheetsDir = path.join(datasetDir, 'screen-sheets');
 
   it('charge metadata.json et vérifie le registre et les Cas d\'Usage (use_cases)', () => {
-    const raw = fs.readFileSync(path.join(publicDir, 'metadata.json'), 'utf-8');
+    const raw = fs.readFileSync(path.join(datasetDir, 'metadata.json'), 'utf-8');
     const meta = JSON.parse(raw);
     expect(meta._meta.project).toBe('ECO-STAYS');
     expect(meta._meta.version).toBe('1.3.0');
@@ -51,7 +53,7 @@ describe('Jeu de données de test exhaustif : ECO-STAYS', () => {
     ];
 
     for (const filename of sitemaps) {
-      const content = fs.readFileSync(path.join(publicDir, filename), 'utf-8');
+      const content = fs.readFileSync(path.join(datasetDir, filename), 'utf-8');
       const ast = parseMermaidFile(content, filename);
       expect(ast.meta.kind).toBe('sitemap');
       expect(Object.keys(ast.nodes).length).toBeGreaterThan(5);
@@ -70,7 +72,7 @@ describe('Jeu de données de test exhaustif : ECO-STAYS', () => {
   });
 
   it('vérifie les caractéristiques spécifiques de sitemap-detailed.mmd', () => {
-    const content = fs.readFileSync(path.join(publicDir, 'sitemap-detailed.mmd'), 'utf-8');
+    const content = fs.readFileSync(path.join(datasetDir, 'sitemap-detailed.mmd'), 'utf-8');
     const ast = parseMermaidFile(content, 'sitemap-detailed.mmd');
 
     // Tags
@@ -106,7 +108,7 @@ describe('Jeu de données de test exhaustif : ECO-STAYS', () => {
 
     const parsedJourneys = [];
     for (const filename of userflows) {
-      const content = fs.readFileSync(path.join(publicDir, filename), 'utf-8');
+      const content = fs.readFileSync(path.join(datasetDir, filename), 'utf-8');
       const ast = parseMermaidFile(content, filename);
       expect(ast.meta.kind).toBe('userflow');
       expect(ast.meta.uc).toBeTruthy();
@@ -143,7 +145,7 @@ describe('Jeu de données de test exhaustif : ECO-STAYS', () => {
     ];
 
     for (const filename of linearFlows) {
-      const content = fs.readFileSync(path.join(publicDir, filename), 'utf-8');
+      const content = fs.readFileSync(path.join(datasetDir, filename), 'utf-8');
       const ast = parseMermaidFile(content, filename);
       const layout = layoutUserflow(ast);
 

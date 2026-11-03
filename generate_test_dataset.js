@@ -5,8 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const publicDir = path.resolve(__dirname, 'public');
-const distDir = path.resolve(__dirname, 'dist');
+const datasetDir = path.resolve(__dirname, 'examples/eco-stays');
 const examplesDir = path.resolve(__dirname, '../examples/preview-showcase');
 
 const files = {};
@@ -1404,7 +1403,8 @@ const extraSheets = {
 };
 
 // Écriture dans public, dist et examples
-const targetDirs = [publicDir, distDir, examplesDir];
+const targetDirs = [datasetDir];
+if (fs.existsSync(examplesDir)) targetDirs.push(examplesDir);
 
 for (const target of targetDirs) {
   if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
@@ -1429,14 +1429,5 @@ for (const target of targetDirs) {
   }
 }
 
-// Copie des fiches écrans existantes de public vers dist et examples
-const srcSheets = path.join(publicDir, 'screen-sheets');
-if (fs.existsSync(srcSheets)) {
-  for (const f of fs.readdirSync(srcSheets)) {
-    const content = fs.readFileSync(path.join(srcSheets, f), 'utf-8');
-    fs.writeFileSync(path.join(distDir, 'screen-sheets', f), content, 'utf-8');
-    fs.writeFileSync(path.join(examplesDir, 'screen-sheets', f), content, 'utf-8');
-  }
-}
 
 console.log('✅ Tous les fichiers MMD, metadata.json et screen-sheets ont été générés avec succès !');
