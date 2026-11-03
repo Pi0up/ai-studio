@@ -67,6 +67,22 @@
     </div>
   </aside>
 
+  <!-- Séparateur de volet / Window Splitter (W3C WAI-ARIA APG) -->
+  <div
+    id="sidebar-splitter"
+    class="window-splitter"
+    role="separator"
+    tabindex="0"
+    aria-orientation="vertical"
+    aria-controls="sidebar"
+    aria-label="Redimensionner le panneau latéral"
+    aria-valuenow="320"
+    aria-valuemin="240"
+    aria-valuemax="960"
+  >
+    <div class="splitter-handle" aria-hidden="true"></div>
+  </div>
+
   <!-- 2. Zone Principale & Viewport -->
   <main id="main-viewport">
     <!-- Barre Supérieure -->

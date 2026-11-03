@@ -21,8 +21,10 @@ body {
 
 /* 1. Panneau Latéral Gauche */
 #sidebar {
-  width: 320px;
-  min-width: 320px;
+  width: var(--sidebar-width, 320px);
+  min-width: 240px;
+  max-width: 50vw;
+  flex-shrink: 0;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -32,7 +34,80 @@ body {
 }
 
 #sidebar.collapsed {
-  margin-left: -320px;
+  margin-left: calc(-1 * var(--sidebar-width, 320px));
+}
+
+#sidebar.collapsed + #sidebar-splitter {
+  display: none;
+}
+
+/* Séparateur de volet / Window Splitter (W3C WAI-ARIA APG) */
+.window-splitter {
+  width: 6px;
+  min-width: 6px;
+  background: transparent;
+  cursor: col-resize;
+  position: relative;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  margin-left: -3px;
+  margin-right: -3px;
+}
+
+.window-splitter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2px;
+  width: 2px;
+  background: var(--border-color);
+  transition: background-color 0.15s ease;
+}
+
+.window-splitter:hover::before,
+.window-splitter:focus-visible::before,
+body.resizing-sidebar .window-splitter::before {
+  background: var(--primary);
+}
+
+.window-splitter .splitter-handle {
+  width: 4px;
+  height: 28px;
+  border-radius: 2px;
+  background: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+  z-index: 1;
+}
+
+.window-splitter:hover .splitter-handle,
+.window-splitter:focus-visible .splitter-handle,
+body.resizing-sidebar .window-splitter .splitter-handle {
+  opacity: 0.8;
+  background: var(--primary);
+}
+
+.window-splitter:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+body.resizing-sidebar {
+  cursor: col-resize !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+body.resizing-sidebar * {
+  cursor: col-resize !important;
+  user-select: none !important;
 }
 
 .sidebar-header {
