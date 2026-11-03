@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"import('fs').then(fs => { const src = fs.existsSync('public') ? 'public' : '../examples/preview-showcase'; fs.cpSync(src, 'dist', { recursive: true }); console.log('✅ Generated dist/index.html with test dataset'); })\"",
+    "build": "vite build",
     "test": "vitest run",
     "release": "semantic-release"
   },
