@@ -1,3 +1,4 @@
+[![Deploy GitHub Pages](https://github.com/Pi0up/ai-studio/actions/workflows/pages.yml/badge.svg)](https://github.com/Pi0up/ai-studio/actions/workflows/pages.yml)
 # Information Architecture Studio (`ai-studio`)
 
 Visualiseur web unifié, interactif et autonome pour l'Architecture de l'Information (IA) : arborescences (*sitemaps*), parcours utilisateurs (*userflows*) et fiches d'écrans.
