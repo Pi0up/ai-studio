@@ -2,6 +2,12 @@
 
 Toutes les modifications notables apportées à ce projet sont consignées dans ce fichier.
 
+## [1.1.1](https://github.com/Pi0up/ai-studio/compare/v1.1.0...v1.1.1) (2026-11-03)
+
+### 🐛 Bug Fixes
+
+* **app:** decouple diagram fallback candidates from sample dataset ([8ecca56](https://github.com/Pi0up/ai-studio/commit/8ecca56152108466d91f3bca90de34bed666690e))
+
 ## [1.1.0](https://github.com/Pi0up/ai-studio/compare/v1.0.0...v1.1.0) (2026-11-03)
 
 ### ✨ Features
