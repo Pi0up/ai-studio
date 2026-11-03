@@ -8,7 +8,7 @@ Visualiseur web unifié, interactif et autonome pour l'Architecture de l'Informa
 
 **Information Architecture Studio** (`ai-studio`) est un outil conçu pour explorer, inspecter et partager visuellement les livrables d'Architecture de l'Information d'une application ou d'un service.
 
-Compilé sous la forme d'un **fichier HTML unique et autonome** (`preview.html`), il s'exécute directement dans un navigateur moderne (y compris via le protocole `file://`, sans nécessiter de serveur applicatif ou de runtime Node.js en production).
+Compilé sous la forme d'un **fichier HTML unique et autonome** (`index.html`), il s'exécute directement dans un navigateur moderne (y compris via le protocole `file://`, sans nécessiter de serveur applicatif ou de runtime Node.js en production).
 
 ### Principales fonctionnalités
 - **Canevas vectoriel SVG infini** : Navigation fluide (pan & zoom haute fidélité sans pixellisation, centrage automatique).
@@ -48,7 +48,7 @@ Le fonctionnement repose sur une boucle simple et modulaire :
                  ▼
 ┌─────────────────────────────────┐
 │      Livrable autonome          │
-│     (dist/preview.html)         │
+│      (dist/index.html)          │
 └─────────────────────────────────┘
 ```
 
@@ -86,10 +86,26 @@ npm test
 ```
 
 ### Compilation (Build)
-Génère le visualiseur unique et autonome dans `dist/preview.html` :
+Génère le visualiseur unique et autonome dans `dist/index.html` ainsi que le jeu d'actifs :
 ```bash
 npm run build
 ```
+
+---
+
+## 🌐 Déploiement en ligne (GitHub Pages)
+
+Le dépôt intègre un workflow GitHub Actions (`.github/workflows/pages.yml`) qui s'exécute automatiquement à chaque mise à jour de la branche `main` :
+
+1. **Génération de `dist/*` en ligne** : Les fichiers compilés (`dist/index.html`, `metadata.json`, `screen-sheets/`, diagrammes `.mmd`) sont automatiquement poussés sur la branche `gh-pages` du dépôt Git.
+2. **Hébergement GitHub Pages** : L'application est mise à disposition et accessible publiquement à l'adresse :
+   ```text
+   https://pi0up.github.io/ai-studio/
+   ```
+
+### Configuration GitHub Pages requise dans le dépôt
+Dans les paramètres du dépôt GitHub (**Settings** > **Pages** > **Build and deployment**) :
+- **Source** : sélectionner soit **Deploy from a branch** (branche `gh-pages` / dossier `/ (root)`), soit **GitHub Actions**. Le workflow est configuré pour supporter nativement les deux modes.
 
 ---
 

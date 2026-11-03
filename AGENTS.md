@@ -62,7 +62,7 @@ Les messages de commit doivent strictement respecter la spécification **Convent
 *Exemples :*
 - `feat(viewer): implement pan and zoom navigation`
 - `fix(sitemap): correct tree layout algorithm edge case`
-- `hotfix: fix preview.html missing file generation in release`
+- `hotfix: fix index.html missing file generation in release`
 
 ---
 
@@ -95,18 +95,66 @@ Afin de préserver la vélocité sans introduire de régressions :
 
 1. **Privilégier le serveur de développement en local (`npm run dev`) :**
    - Ne lancez pas un `npm run build` complet à chaque modification de code frontend. Le serveur Vite HMR (Hot Module Replacement) compile à la volée en quelques millisecondes.
-   - Ne réservez `npm run build` qu'à la validation finale du bundle standalone (`dist/preview.html`).
+   - Ne réservez `npm run build` qu'à la validation finale du bundle standalone (`dist/index.html`).
 
 2. **Exploitation des caches :**
    - Ne supprimez pas le dossier `.vite` ou `node_modules` systématiquement.
    - En environnement automatisé ou conteneurisé, préférez `npm ci` à `npm install` pour garantir des temps d'installation optimaux et des dépendances strictes.
 
 3. **Précautions sur le script de build :**
-   - Le script `build` combine `vite build` avec une étape Node.js post-build générant `dist/preview.html` et copiant les assets de `public/`.
+   - Le script `build` combine `vite build` avec une étape Node.js post-build générant `dist/index.html` et copiant les assets de `public/`.
    - Vérifiez que vos modifications d'assets ou de template ne cassent pas la structure attendue par ce script dans [package.json](file:///c:/Users/vincent.pperrery/Documents/_dev/ai-studio/package.json).
 
 4. **Synthèse des règles d'or :**
    - Branche dédiée `feat/...` ou `fix/...`
+   - Actions Git automatiques au fur et à mesure (commits atomiques et pushs continus)
    - Commits conventionnels et itérations locales rapides
    - Tests ciblés en dev, tests intégraux exigés en PR
    - Merge sur `main` uniquement via PR (hotfix direct sur `main` exceptionnel)
+
+---
+
+## 6. Automatisation du Versioning et Changelog (Semantic-Release)
+
+Le projet utilise **semantic-release** intégré dans le workflow GitHub Actions (`.github/workflows/ci.yml`).
+
+### Fonctionnement du cycle de release :
+1. **Déclenchement automatique** : À chaque merge de Pull Request sur la branche `main`, le job `release` s'exécute après le succès des tests.
+2. **Déduction du SemVer** :
+   - `feat(...)` : Incrément **MINEUR** (`1.3.0` $\rightarrow$ `1.4.0`).
+   - `fix(...)`, `hotfix(...)`, `perf(...)` : Incrément **PATCH** (`1.3.0` $\rightarrow$ `1.3.1`).
+   - `BREAKING CHANGE:` ou `feat(...!):` : Incrément **MAJEUR** (`1.3.0` $\rightarrow$ `2.0.0`).
+   - `docs`, `chore`, `refactor`, `test`, `ci`, `build` : Aucun saut de version.
+3. **Mise à jour du Changelog (`CHANGELOG.md`)** : Généré automatiquement avec les sections correspondantes (Features, Bug Fixes, Hotfixes, Performance).
+4. **Mise à jour de `package.json` et Tag Git** : Un commit `chore(release): X.Y.Z [skip ci]` et un tag Git `vX.Y.Z` sont créés automatiquement.
+5. **Assets de la GitHub Release** : L'artefact autonome `dist/index.html` et l'archive ZIP `information-architecture-studio-vX.Y.Z.zip` sont attachés à la release GitHub.
+
+### Test local (Dry-run) :
+Pour vérifier la détection de version et le changelog sans publier :
+```bash
+npx semantic-release --dry-run
+```
+
+---
+
+## 7. Actions Git Automatiques au Fil de l'Eau (Obligation pour les Agents IA)
+
+Pour garantir la traçabilité, éviter toute perte de travail et maintenir un historique Git clair et granulaire, **l'agent IA doit exécuter les actions Git de manière proactive et automatique au fur et à mesure de son travail**, sans attendre une demande explicite de l'utilisateur :
+
+1. **Initialisation de la tâche :**
+   - Inspecter systématiquement l'état du dépôt (`git status`, `git branch`).
+   - Si les modifications concernent un nouveau sujet ou si le workspace est sur `main`, basculer immédiatement sur une branche dédiée (`feat/...`, `fix/...`, `chore/...`). Ne jamais développer directement sur `main`.
+
+2. **Commits atomiques et réguliers au fil de l'eau :**
+   - **Ne jamais accumuler l'ensemble des changements pour un unique commit en fin de session.**
+   - Dès qu'une sous-tâche, un fichier clé, une refactorisation ou un test est terminé et validé, exécuter immédiatement un commit conventionnel (`git add <fichiers>` puis `git commit`).
+   - Chaque commit doit représenter une unité logique de changement claire.
+
+3. **Synchronisation continue (`git push`) :**
+   - Pousser régulièrement la branche de travail vers le dépôt distant (`git push -u origin <nom-branche>` dès le premier commit, puis `git push` au fur et à mesure des commits significatifs).
+   - Cela assure la sauvegarde en temps réel du travail dans l'espace distant.
+
+4. **Clôture et propreté :**
+   - Avant de rendre la main à l'utilisateur, vérifier `git status` pour s'assurer qu'aucun fichier orphelin (*untracked*) ou modification non commitée ne subsiste.
+   - Confirmer brièvement à l'utilisateur les commits réalisés et le statut de synchronisation de la branche.
+

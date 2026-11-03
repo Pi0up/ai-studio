@@ -6,7 +6,7 @@ import fs from 'fs';
 
 function htmlMinifierPlugin() {
   return {
-    name: 'vite:minify-preview-html',
+    name: 'vite:minify-index-html',
     enforce: 'post',
     apply(config, { command }) {
       return command === 'build' && !process.env.VITEST;
@@ -14,12 +14,9 @@ function htmlMinifierPlugin() {
     async closeBundle() {
       const distDir = resolve(__dirname, 'dist');
       const indexPath = resolve(distDir, 'index.html');
-      const previewPath = resolve(distDir, 'preview.html');
+      if (!fs.existsSync(indexPath)) return;
 
-      const targetPath = fs.existsSync(previewPath) ? previewPath : indexPath;
-      if (!fs.existsSync(targetPath)) return;
-
-      const rawHtml = fs.readFileSync(targetPath, 'utf8');
+      const rawHtml = fs.readFileSync(indexPath, 'utf8');
       const minifiedHtml = await minify(rawHtml, {
         collapseWhitespace: true,
         removeComments: true,
@@ -36,16 +33,14 @@ function htmlMinifierPlugin() {
         collapseBooleanAttributes: true,
       });
 
-      fs.writeFileSync(previewPath, minifiedHtml, 'utf8');
-      if (fs.existsSync(indexPath) && indexPath !== previewPath) {
-        fs.unlinkSync(indexPath);
-      }
-      console.log(`⚡ Minified & optimized preview.html (${rawHtml.length} -> ${minifiedHtml.length} bytes)`);
+      fs.writeFileSync(indexPath, minifiedHtml, 'utf8');
+      console.log(`⚡ Minified & optimized index.html (${rawHtml.length} -> ${minifiedHtml.length} bytes)`);
     },
   };
 }
 
 export default defineConfig({
+  base: './',
   root: 'src',
   publicDir: false,
   plugins: [
@@ -64,7 +59,7 @@ export default defineConfig({
     cssMinify: true,
     rollupOptions: {
       input: {
-        preview: resolve(__dirname, 'src/index.html'),
+        index: resolve(__dirname, 'src/index.html'),
       },
     },
   },
