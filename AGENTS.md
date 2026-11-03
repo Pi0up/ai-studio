@@ -102,8 +102,8 @@ Afin de préserver la vélocité sans introduire de régressions :
    - En environnement automatisé ou conteneurisé, préférez `npm ci` à `npm install` pour garantir des temps d'installation optimaux et des dépendances strictes.
 
 3. **Précautions sur le script de build :**
-   - Le script `build` combine `vite build` avec une étape Node.js post-build générant `dist/index.html` et copiant les assets de `public/`.
-   - Vérifiez que vos modifications d'assets ou de template ne cassent pas la structure attendue par ce script dans [package.json](file:///c:/Users/vincent.pperrery/Documents/_dev/ai-studio/package.json).
+   - Le script `build` exécute `vite build` et génère un visualiseur HTML standalone unique et autonome dans `dist/index.html` exempt de toute donnée d'exemple.
+   - Les jeux de données de démonstration ou de test sont stockés dans `examples/` (ex. `examples/eco-stays/`) et ne sont jamais intégrés au bundle de distribution.
 
 4. **Synthèse des règles d'or :**
    - Branche dédiée `feat/...` ou `fix/...`
