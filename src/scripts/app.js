@@ -64,7 +64,6 @@ class IaStudioApp {
       emptyStateText: document.getElementById('empty-state-text'),
       btnWelcomeOpen: document.getElementById('btn-welcome-open'),
       sidebarAppVersion: document.getElementById('sidebar-app-version'),
-      sidebarMetaBadge: document.getElementById('sidebar-meta-badge'),
       svgWrapper: document.getElementById('svg-canvas-wrapper'),
       renderTarget: document.getElementById('render-target'),
       diagramList: document.getElementById('diagram-list'),
@@ -724,17 +723,6 @@ class IaStudioApp {
     if (this.dom.emptyState) this.dom.emptyState.style.display = 'none';
     if (this.dom.svgWrapper) this.dom.svgWrapper.style.display = 'inline-block';
     if (this.dom.activeBadge) this.dom.activeBadge.style.display = 'inline-block';
-
-    if (this.dom.sidebarMetaBadge) {
-      if (this.state.metadataHeader) {
-        const v = this.state.metadataHeader.version || '1.0';
-        const tpl = this.state.metadataHeader.template_version || '1.3';
-        this.dom.sidebarMetaBadge.style.display = 'inline-block';
-        this.dom.sidebarMetaBadge.textContent = `data v${v}`;
-        this.dom.sidebarMetaBadge.title = `Format : ${this.state.metadataHeader.format || 'ia-metadata'}\nVersion données : ${v}\nVersion template : ${tpl}`;
-      } else {
-        this.dom.sidebarMetaBadge.style.display = 'none';
-      }
     }
 
     this.sortDiagramsDeterministically();
