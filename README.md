@@ -53,7 +53,7 @@ Le fonctionnement repose sur une boucle simple et modulaire :
 └─────────────────────────────────┘
 ```
 
-1. **Sources déclaratives simples** : Le studio consomme un jeu de fichiers (placés par défaut dans `public/` ou `generated/`) :
+1. **Sources déclaratives simples** : Le studio consomme un jeu de fichiers issu d'un projet cible (importé via le sélecteur de dossier ou par glisser-déposer) :
    - Les diagrammes d'arborescence et de parcours (`sitemap-*.mmd`, `PF-*.mmd`) enrichis de métadonnées.
    - Les fiches descriptives détaillées de chaque écran (`screen-sheets/*.md`).
    - Un index global (`metadata.json`).
@@ -87,7 +87,7 @@ npm test
 ```
 
 ### Compilation (Build)
-Génère le visualiseur unique et autonome dans `dist/index.html` ainsi que le jeu d'actifs :
+Génère le visualiseur unique et autonome dans `dist/index.html` (sans données de démonstration embarquées) :
 ```bash
 npm run build
 ```
@@ -98,7 +98,7 @@ npm run build
 
 Le dépôt intègre un workflow GitHub Actions (`.github/workflows/pages.yml`) qui s'exécute automatiquement à chaque mise à jour de la branche `main` :
 
-1. **Génération de `dist/*` en ligne** : Les fichiers compilés (`dist/index.html`, `metadata.json`, `screen-sheets/`, diagrammes `.mmd`) sont automatiquement poussés sur la branche `gh-pages` du dépôt Git.
+1. **Génération de `dist/*` en ligne** : Le fichier autonome compilé (`dist/index.html`) est automatiquement poussé sur la branche `gh-pages` du dépôt Git.
 2. **Hébergement GitHub Pages** : L'application est mise à disposition et accessible publiquement à l'adresse :
    ```text
    https://pi0up.github.io/ai-studio/
