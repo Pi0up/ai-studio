@@ -723,7 +723,6 @@ class IaStudioApp {
     if (this.dom.emptyState) this.dom.emptyState.style.display = 'none';
     if (this.dom.svgWrapper) this.dom.svgWrapper.style.display = 'inline-block';
     if (this.dom.activeBadge) this.dom.activeBadge.style.display = 'inline-block';
-    }
 
     this.sortDiagramsDeterministically();
     this.buildGlobalIndex();
