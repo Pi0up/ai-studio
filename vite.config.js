@@ -4,6 +4,22 @@ import { resolve } from 'path';
 import { minify } from 'html-minifier-terser';
 import fs from 'fs';
 
+const pkg = JSON.parse(fs.readFileSync(resolve(__dirname, 'package.json'), 'utf8'));
+
+function htmlVersionPlugin() {
+  return {
+    name: 'vite:html-transform-version',
+    transformIndexHtml(html) {
+      return html
+        .replace(/__APP_VERSION__/g, pkg.version)
+        .replace(
+          /Information Architecture Studio — Visualiseur Unifié v[0-9.]+/g,
+          `Information Architecture Studio — Visualiseur Unifié v${pkg.version}`
+        );
+    },
+  };
+}
+
 function htmlMinifierPlugin() {
   return {
     name: 'vite:minify-index-html',
@@ -43,7 +59,11 @@ export default defineConfig({
   base: './',
   root: 'src',
   publicDir: false,
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [
+    htmlVersionPlugin(),
     viteSingleFile({ removeViteModuleLoader: true }),
     htmlMinifierPlugin(),
   ],

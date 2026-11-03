@@ -13,6 +13,8 @@ import { HoverCardManager } from './hover-card.js';
 import { setupExportMenu } from './export-menu.js';
 import { parseMetadata, CURRENT_TEMPLATE_VERSION } from './metadata-parser.js';
 
+export const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.0.0';
+
 class IaStudioApp {
   constructor() {
     this.activeDirHandle = null;
@@ -61,6 +63,7 @@ class IaStudioApp {
       emptyState: document.getElementById('empty-state'),
       emptyStateText: document.getElementById('empty-state-text'),
       btnWelcomeOpen: document.getElementById('btn-welcome-open'),
+      sidebarAppVersion: document.getElementById('sidebar-app-version'),
       sidebarMetaBadge: document.getElementById('sidebar-meta-badge'),
       svgWrapper: document.getElementById('svg-canvas-wrapper'),
       renderTarget: document.getElementById('render-target'),
@@ -91,6 +94,10 @@ class IaStudioApp {
     };
 
     this.initTheme();
+    if (this.dom.sidebarAppVersion) {
+      this.dom.sidebarAppVersion.textContent = `v${APP_VERSION}`;
+      this.dom.sidebarAppVersion.title = `Version de l'application : v${APP_VERSION}`;
+    }
     this.panZoom = new PanZoomEngine(this.dom.canvasViewport, this.dom.svgWrapper);
 
     this.inspector = new NodeInspector(this.dom, this.panZoom, {
@@ -731,7 +738,7 @@ class IaStudioApp {
         const v = this.state.metadataHeader.version || '1.0';
         const tpl = this.state.metadataHeader.template_version || '1.3';
         this.dom.sidebarMetaBadge.style.display = 'inline-block';
-        this.dom.sidebarMetaBadge.textContent = `v${v}`;
+        this.dom.sidebarMetaBadge.textContent = `data v${v}`;
         this.dom.sidebarMetaBadge.title = `Format : ${this.state.metadataHeader.format || 'ia-metadata'}\nVersion données : ${v}\nVersion template : ${tpl}`;
       } else {
         this.dom.sidebarMetaBadge.style.display = 'none';
@@ -1448,6 +1455,8 @@ class IaStudioApp {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.iaStudio = new IaStudioApp();
-});
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.iaStudio = new IaStudioApp();
+  });
+}
