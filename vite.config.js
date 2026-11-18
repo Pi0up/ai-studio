@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { viteSingleFile } from 'vite-plugin-singlefile';
 import { resolve } from 'path';
 import { minify } from 'html-minifier-terser';
 import fs from 'fs';
@@ -50,21 +49,22 @@ function htmlMinifierPlugin() {
       });
 
       fs.writeFileSync(indexPath, minifiedHtml, 'utf8');
-      console.log(`⚡ Minified & optimized index.html (${rawHtml.length} -> ${minifiedHtml.length} bytes)`);
+      console.log(`⚡ Minified modular index.html (${rawHtml.length} -> ${minifiedHtml.length} bytes)`);
     },
   };
 }
 
+const publicDir = fs.existsSync(resolve(__dirname, 'public')) ? resolve(__dirname, 'public') : false;
+
 export default defineConfig({
   base: './',
   root: 'src',
-  publicDir: false,
+  publicDir,
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
   },
   plugins: [
     htmlVersionPlugin(),
-    viteSingleFile({ removeViteModuleLoader: true }),
     htmlMinifierPlugin(),
   ],
   esbuild: {
@@ -81,11 +81,22 @@ export default defineConfig({
       input: {
         index: resolve(__dirname, 'src/index.html'),
       },
+      output: {
+        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'css/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
     },
   },
   test: {
     root: resolve(__dirname),
     globals: true,
     environment: 'node',
+    pool: 'forks',
   },
 });

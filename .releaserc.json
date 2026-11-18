@@ -68,12 +68,12 @@
       {
         "assets": [
           {
-            "path": "dist/index.html",
+            "path": "dist-standalone/index.html",
             "label": "Standalone HTML Visualizer (index.html)"
           },
           {
             "path": "information-architecture-studio-v*.zip",
-            "label": "Full Distribution Package (ZIP)"
+            "label": "Full Modular Distribution Package (ZIP)"
           }
         ]
       }

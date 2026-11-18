@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:modular && npm run build:standalone",
+    "build:modular": "vite build --config vite.config.js",
+    "build:standalone": "vite build --config vite.standalone.config.js",
+    "preview": "vite preview",
     "test": "vitest run",
     "release": "semantic-release"
   },
