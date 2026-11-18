@@ -102,8 +102,10 @@ Afin de préserver la vélocité sans introduire de régressions :
    - En environnement automatisé ou conteneurisé, préférez `npm ci` à `npm install` pour garantir des temps d'installation optimaux et des dépendances strictes.
 
 3. **Précautions sur le script de build :**
-   - Le script `build` exécute `vite build` et génère un visualiseur HTML standalone unique et autonome dans `dist/index.html` exempt de toute donnée d'exemple.
-   - Les jeux de données de démonstration ou de test sont stockés dans `examples/` (ex. `examples/eco-stays/`) et ne sont jamais intégrés au bundle de distribution.
+   - Le script `build` (`npm run build`) enchaîne `build:modular` et `build:standalone` :
+     - `dist/` : Distribution web modulaire avec ressources séparées (`index.html`, `css/`, `js/`, `assets/`, et `standalone.html`).
+     - `dist-standalone/index.html` : Visualiseur HTML autonome unique sans dépendances locales pour la GitHub Release.
+   - Les jeux de données de démonstration ou de test sont stockés dans `examples/` (ex. `examples/eco-stays/`) et ne sont jamais intégrés aux bundles de distribution.
 
 4. **Synthèse des règles d'or :**
    - Branche dédiée `feat/...` ou `fix/...`
@@ -127,7 +129,7 @@ Le projet utilise **semantic-release** intégré dans le workflow GitHub Actions
    - `docs`, `chore`, `refactor`, `test`, `ci`, `build` : Aucun saut de version.
 3. **Mise à jour du Changelog (`CHANGELOG.md`)** : Généré automatiquement avec les sections correspondantes (Features, Bug Fixes, Hotfixes, Performance).
 4. **Mise à jour de `package.json` et Tag Git** : Un commit `chore(release): X.Y.Z [skip ci]` et un tag Git `vX.Y.Z` sont créés automatiquement.
-5. **Assets de la GitHub Release** : L'artefact autonome `dist/index.html` et l'archive ZIP `information-architecture-studio-vX.Y.Z.zip` sont attachés à la release GitHub.
+5. **Assets de la GitHub Release** : L'artefact autonome `dist-standalone/index.html` (nommé `index.html`) et l'archive ZIP `information-architecture-studio-vX.Y.Z.zip` (contenant la distribution modulaire `dist/*`) sont attachés à la release GitHub.
 
 ### Test local (Dry-run) :
 Pour vérifier la détection de version et le changelog sans publier :

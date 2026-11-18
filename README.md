@@ -87,10 +87,31 @@ npm test
 ```
 
 ### Compilation (Build)
-Génère le visualiseur unique et autonome dans `dist/index.html` (sans données de démonstration embarquées) :
+Le projet supporte deux cibles de compilation complémentaires :
+
 ```bash
+# Compilation complète des deux cibles (modulaire + standalone)
 npm run build
+
+# Compilation uniquement de la distribution web modulaire (dist/)
+npm run build:modular
+
+# Compilation uniquement du visualiseur autonome tout-en-un (dist-standalone/index.html)
+npm run build:standalone
+
+# Prévisualisation locale de la distribution modulaire
+npm run preview
 ```
+
+#### Deux formats de distribution disponibles :
+1. **Distribution Web Modulaire (`dist/`)** :
+   - Fichiers séparés (`dist/index.html`, `dist/css/`, `dist/js/`, `dist/assets/`).
+   - Idéal pour déploiement sur serveur HTTP, CDN ou **GitHub Pages**.
+   - Inclut également `dist/standalone.html` pour un accès direct au visualiseur autonome.
+2. **Release Autonome Tout-en-un (`dist-standalone/index.html`)** :
+   - Fichier unique HTML minifié, sans dépendances locales (tous les styles et scripts applicatifs sont inlinés).
+   - Consultable directement par double-clic (`file:///`) sans serveur web.
+   - Attaché directement en tant qu'asset téléchargeable sur les releases GitHub.
 
 ---
 
